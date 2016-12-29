@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">备忘录</string>
+    <string name="launchSkipBtn">跳过</string>
+    <string name="lauchtoContent">进入备忘录</string>
+    <string name="setting"> 设 置 </string>
+    <string name="title">备 忘 录</string>
+    <string name="linearLayout">线性布局</string>
+    <string name="gridLayout">网络布局</string>
+    <string name="editContent">编辑备忘录</string>
+    <string name="add">备忘录\n新建</string>
+    <string name="delete">删除</string>
+    <string name="item_delete">删 除</string>
+</resources>
