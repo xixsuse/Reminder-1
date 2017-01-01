@@ -7,4 +7,5 @@
     <color name="read">#FF3030</color>
     <color name="item_text_collor">#636363</color>
     <color name="item_delete_text">#DDFFFFFF</color>
+    <color name="white">#FFFFFF</color>
 </resources>
