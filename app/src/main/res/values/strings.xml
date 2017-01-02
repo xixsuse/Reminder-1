@@ -7,7 +7,9 @@
     <string name="linearLayout">线性布局</string>
     <string name="gridLayout">网络布局</string>
     <string name="editContent">编辑备忘录</string>
-    <string name="add">备忘录\n新建</string>
+    <string name="add">新 建</string>
     <string name="delete">删除</string>
-    <string name="item_delete">删 除</string>
+    <string name="selectlayout">选择布局结构</string>
+    <string name="linear">线性布局</string>
+    <string name="grid">网格布局</string>
 </resources>

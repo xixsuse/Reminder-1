@@ -27,7 +27,6 @@ public class MemoReminders implements Serializable {
         this.mContent = mContent;
         this.mFlag = mFlag;
         this.createTime = createTime;
-
         this.imageDatas = imageDatas;
     }
 

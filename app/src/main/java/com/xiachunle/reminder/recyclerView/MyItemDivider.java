@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -30,15 +31,16 @@ public class MyItemDivider extends RecyclerView.ItemDecoration {
             View child = parent.getChildAt(i);
             if (isGrid) {
                 c.drawLine(child.getRight(), child.getTop(), child.getRight(), child.getBottom(), paint);
-            } else {
 
-                c.drawLine(child.getLeft(), child.getBottom(), child.getRight(), child.getBottom(), paint);
-                if (i == parent.getChildCount() - 1) {
-                    paint.setStyle(Paint.Style.STROKE);
-                    c.drawRect(child.getLeft(), child.getBottom(), child.getRight(), child.getBottom(), paint);
-                }
+
+
+                c.drawLine(child.getLeft(),child.getBottom(),child.getRight(),child.getBottom(),paint);
+            } else {
+                c.drawLine(child.getLeft(),child.getBottom(),child.getRight(),child.getBottom(),paint);
+
             }
 
         }
     }
+
 }

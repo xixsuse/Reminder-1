@@ -8,136 +8,133 @@
     android:layout_marginTop="20dp"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
         android:layout_weight="5"
-        android:orientation="horizontal"
-        android:layout_marginBottom="10dp">
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="left|center"
-            android:id="@+id/cancel"
-            android:text="取消"
-            android:textColor="@android:color/holo_green_dark"
-            android:textSize="16sp" />
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/editContent"
-            android:layout_weight="1"
-            android:textSize="20sp"
+        android:orientation="horizontal">
 
-            android:gravity="center"
-            android:textColor="@android:color/holo_green_dark"/>
+        <ImageView
+            android:id="@+id/cancel"
+            android:gravity="left|center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/cancel" />
+
         <android.support.v7.widget.AppCompatTextView
+            android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="right|center"
-            android:text="确定"
+            android:layout_alignLeft="@id/cancel"
+            android:text="@string/editContent"
+            android:textColor="@color/textcolor"
+            android:textSize="22sp" />
+
+        <ImageView
+            android:gravity="right|center_vertical"
+            android:layout_alignParentRight="true"
             android:id="@+id/save"
-            android:textColor="@android:color/holo_green_dark"
-            android:textSize="16sp" />
-    </LinearLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ok"
+           />
+    </RelativeLayout>
+
     <android.support.v7.widget.AppCompatTextView
-        android:layout_marginTop="5dp"
+        android:id="@+id/timeTitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
         android:layout_weight="5"
-        android:id="@+id/timeTitle"
         android:gravity="left|top"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:fillViewport="true"
-        >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-        <android.support.v7.widget.AppCompatEditText
-            android:layout_weight="1"
-            android:background="@color/clear"
-            android:id="@+id/selectResult"
+        android:fillViewport="true">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="left"
-            android:textColor="@android:color/black"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:cursorVisible="true"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            />
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/selectResult"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/clear"
+                android:cursorVisible="true"
+                android:gravity="left"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@android:color/black"
+                android:textCursorDrawable="@drawable/color_cursor" />
+
+        </LinearLayout>
 
     </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="5"
-        android:orientation="horizontal"
         android:layout_marginTop="10dp"
-        >
+        android:layout_weight="5"
+        android:background="@color/clear"
+        android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatCheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="收藏"
-            android:layout_weight="1"
+        <ImageView
             android:id="@+id/importFlag"
-            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
             android:clickable="true"
-            android:layout_gravity="center"
-            android:textColor="@android:color/black"
-            />
+            android:gravity="center"
+            android:src="@drawable/star" />
 
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="拍照"
+        <ImageView
+
             android:id="@+id/startCamera"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:textColor="@android:color/black"
-            />
-        <android.support.v7.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="图片"
-            android:id="@+id/picture"
-            android:gravity="center"
             android:layout_gravity="center"
-            android:textColor="@android:color/black"/>
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="闹钟"
-            android:id="@+id/lock"
             android:gravity="center"
-            android:layout_gravity="center"
-            android:textColor="@android:color/black"/>
+            android:src="@drawable/camera" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <ImageView
+            android:id="@+id/picture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/delete"
-            android:id="@+id/delete"
-            android:visibility="gone"
-            android:gravity="center"
             android:layout_gravity="center"
-            android:textColor="@android:color/black"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:src="@drawable/gallery" />
+
+        <ImageView
+            android:id="@+id/lock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:src="@drawable/voicesear" />
+
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:src="@drawable/delete"
+            android:visibility="gone" />
+
+
     </LinearLayout>
 </LinearLayout>

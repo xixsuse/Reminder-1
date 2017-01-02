@@ -8,4 +8,8 @@
     <color name="item_text_collor">#636363</color>
     <color name="item_delete_text">#DDFFFFFF</color>
     <color name="white">#FFFFFF</color>
+    <color name="textcolor">#000000</color>
+    <color name="ripple">#3f000000</color>
+    <color name="press">#b3fffffc</color>
+    <color name="normal">#fafafa</color>
 </resources>

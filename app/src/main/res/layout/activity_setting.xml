@@ -1,34 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="16dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginBottom="16dp"
-    android:layout_marginRight="16dp">
+    android:layout_height="match_parent">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/settingTitle"
         android:layout_weight="6"
-
+        android:gravity="center"
+        android:text="@string/setting"
+        android:textColor="@color/textcolor"
+        android:textSize="22sp"
         />
-
+    <View
+        android:background="@android:color/darker_gray"
+        class="android.view.View"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <TextView
+        android:textColor="@color/textcolor"
+        android:textSize="20sp"
+        android:gravity="left|center"
+        android:text="@string/selectlayout"
+        android:paddingLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="6"/>
+    <View
+        android:background="@android:color/darker_gray"
+        class="android.view.View"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
     <LinearLayout
-
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="4">
-        <TextView
+        <com.xiachunle.reminder.ui.LinearTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/lineSetting"
             android:text="@string/linearLayout"
             android:gravity="center"
             android:layout_weight="1"/>
-        <TextView
+        <com.xiachunle.reminder.ui.GridTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/gridSetting"

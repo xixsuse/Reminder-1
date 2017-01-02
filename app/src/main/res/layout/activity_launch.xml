@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context="example.xcl.myproject.example.xcl.reminder.activity.LaunchActivity">
+    tools:context=".activity.LaunchActivity">
 
     <Button
         android:layout_width="90dp"

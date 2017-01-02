@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,8 @@ import com.xiachunle.reminder.adapter.MyRecyViewAdapter;
 import com.xiachunle.reminder.bean.MemoReminders;
 import com.xiachunle.reminder.recyclerView.MyItemDivider;
 import com.xiachunle.reminder.recyclerView.MyItemOntouchListenr;
+import com.xiachunle.reminder.ui.AddTextView;
+import com.xiachunle.reminder.ui.ItemTitleTextView;
 import com.xiachunle.reminder.util.SharedHelper;
 
 import java.util.ArrayList;
@@ -52,7 +55,7 @@ public class ContentFragment extends Fragment {
     private TextView setTextView;
 
 
-    private TextView addImg;
+    private AddTextView addImg;
     public static boolean isGrid;
     public static boolean isLayoutSelect = false;
     private View fragmentView;
@@ -75,9 +78,12 @@ public class ContentFragment extends Fragment {
         dbAdapter = new DBAdapter(getActivity().getApplicationContext());
         dbAdapter.open();
         lists = dbAdapter.fetchAllReminders();
+
+
         initView(v);
         return v;
     }
+
 
     private void initView(View v) {
         sh=new SharedHelper(getActivity().getApplicationContext());
@@ -86,15 +92,8 @@ public class ContentFragment extends Fragment {
 
         setTextView = (TextView) v.findViewById(R.id.setting);
         bottomLayout = (LinearLayout) v.findViewById(R.id.bottomLayout);
-        addImg = (TextView) v.findViewById(R.id.add_img);
-        Bitmap bm = BitmapFactory.decodeResource(getResources(), android.R.drawable.ic_input_add);
-        ImageSpan imageSpan = new ImageSpan(getActivity(), bm);
-        SpannableString ss = new SpannableString(addImg.getText().toString());
-        ss.setSpan(imageSpan, 0, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        addImg.setText(ss);
+        addImg = (AddTextView) v.findViewById(R.id.add_img);
         setTextView.setOnClickListener(clickListener);
-
-
         addImg.setOnClickListener(clickListener);
 
     }
@@ -118,26 +117,48 @@ public class ContentFragment extends Fragment {
             contentRecyView.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false));
         }
         contentRecyView.addItemDecoration(new MyItemDivider(isGrid));
-        contentRecyView.setAdapter(recyViewAdapter = new MyRecyViewAdapter(getActivity(), lists, isGrid));
-        contentRecyView.setItemAnimator(new DefaultItemAnimator());
-        contentRecyView.setHasFixedSize(true);
-        contentRecyView.addOnItemTouchListener(
-                new MyItemOntouchListenr(getActivity(),
-                        contentRecyView, new MyItemOntouchListenr.OnItemClickListener() {
+        recyViewAdapter = new MyRecyViewAdapter(getActivity(), lists, isGrid);
+        recyViewAdapter.addOnItemOnClickListener(new MyRecyViewAdapter.OnItemOnClickListener() {
             @Override
-            public void OnItemClick(int position) {
+            public void onItemClick(RecyclerView.ViewHolder holder, int position) {
+                Log.e("test","show:"+holder.getAdapterPosition()+"-----"+position);
                 dbAdapter.open();
-
                 memoReminder = dbAdapter.fetchReminderById(position + 1);
                 createOrEditreminder(String.valueOf(position + 1));
                 getActivity().finish();
             }
-
+        });
+        recyViewAdapter.addOnMenuOnClickListener(new MyRecyViewAdapter.OnMenuOnClickListener() {
             @Override
-            public void OnItemLongClick(int position) {
-                Toast.makeText(getActivity(),"Long Press "+(position+1),Toast.LENGTH_SHORT).show();
+            public void onMenuClick(RecyclerView.ViewHolder holder, int position) {
+                dbAdapter.deleteReminderByRealId(holder.getAdapterPosition()+1);
+//                lists.remove(holder.getAdapterPosition());
+//                recyViewAdapter.notifyItemRemoved(holder.getAdapterPosition());
+//                lists=dbAdapter.fetchAllReminders();
+//                recyViewAdapter = new MyRecyViewAdapter(getActivity(), lists, isGrid);
             }
-        }));
+        });
+        contentRecyView.setAdapter(recyViewAdapter);
+        contentRecyView.setItemAnimator(new DefaultItemAnimator());
+        contentRecyView.setHasFixedSize(true);
+
+//        contentRecyView.addOnItemTouchListener(
+//                new MyItemOntouchListenr(getActivity(),
+//                        contentRecyView, new MyItemOntouchListenr.OnItemClickListener() {
+//            @Override
+//            public void OnItemClick(int position) {
+//                dbAdapter.open();
+//
+//                memoReminder = dbAdapter.fetchReminderById(position + 1);
+//                createOrEditreminder(String.valueOf(position + 1));
+//                getActivity().finish();
+//            }
+//
+//            @Override
+//            public void OnItemLongClick(int position) {
+//                Toast.makeText(getActivity(),"Long Press "+(position+1),Toast.LENGTH_SHORT).show();
+//            }
+//        }));
 
     }
 

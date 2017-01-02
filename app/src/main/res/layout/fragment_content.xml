@@ -6,7 +6,9 @@
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/clear"
+    >
     <SearchView
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
@@ -22,11 +24,11 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="10dp"
         android:layout_alignParentTop="true">
-        <android.support.v7.widget.RecyclerView
+        <com.xiachunle.reminder.recyclerView.SwipeRecyClerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/content_revyview">
-        </android.support.v7.widget.RecyclerView>
+        </com.xiachunle.reminder.recyclerView.SwipeRecyClerView>
     </LinearLayout>
 
     <LinearLayout
@@ -36,23 +38,19 @@
         android:orientation="horizontal"
         android:id="@+id/bottomLayout">
 
-        <TextView
-            android:background="@android:color/white"
+        <com.xiachunle.reminder.ui.AddTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/add_img"
             android:layout_weight="1"
-            android:text="@string/add"
-            android:textSize="18sp"
-            android:gravity="center|top"
-            android:textColor="@android:color/holo_green_dark"
+            android:gravity="center"
+
             />
 
         <TextView
             android:layout_weight="1"
-            android:background="@android:color/white"
-            android:textColor="@android:color/holo_green_dark"
-            android:textSize="18sp"
+            android:textColor="@color/textcolor"
+            android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"

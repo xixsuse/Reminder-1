@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 
 
+import android.media.Image;
 import android.net.Uri;
 
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,9 +69,10 @@ import static android.content.Context.ALARM_SERVICE;
 public class DetailFragment extends Fragment implements View.OnClickListener {
     private EditText result;
     private TextView timeTitle;
-    private TextView saveText, cancelText, delText;
-    private CheckBox importText;
-    private TextView getPicture, startCamera,timeLock;
+    private ImageView saveText, cancelText;
+    private ImageView importText ,delText;
+    private ImageView timeLock;
+    private ImageView  getPicture, startCamera;
 
     private DBAdapter adapter;
 
@@ -139,14 +142,14 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
             }
         });
         timeTitle = (TextView) v.findViewById(R.id.timeTitle);
-        importText = (CheckBox) v.findViewById(R.id.importFlag);
-        saveText = (TextView) v.findViewById(R.id.save);
-        cancelText = (TextView) v.findViewById(R.id.cancel);
-        delText = (TextView) v.findViewById(R.id.delete);
+        importText = (ImageView) v.findViewById(R.id.importFlag);
+        saveText = (ImageView) v.findViewById(R.id.save);
+        cancelText = (ImageView) v.findViewById(R.id.cancel);
+        delText = (ImageView) v.findViewById(R.id.delete);
         positionId = getArguments().getString("position");
-        getPicture = (TextView) v.findViewById(R.id.picture);
-        startCamera = (TextView) v.findViewById(R.id.startCamera);
-        timeLock=(TextView)v.findViewById(R.id.lock);
+        getPicture = (ImageView) v.findViewById(R.id.picture);
+        startCamera = (ImageView) v.findViewById(R.id.startCamera);
+        timeLock=(ImageView) v.findViewById(R.id.lock);
         hashMap = new HashMap<String, byte[]>();
         tempPathsList = new ArrayList<String>();
         tempDatasList = new ArrayList<byte[]>();
@@ -168,7 +171,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         if (positionId != null) {
             memoReminders = adapter.fetchReminderById(Integer.parseInt(positionId));
             timeTitle.setText(memoReminders.getCreateTime() == null ? "" : memoReminders.getCreateTime());
-            importText.setChecked(memoReminders.getmFlag() == 1);
+//            importText.setB(memoReminders.getmFlag() == 1);
             String content = memoReminders.getmContent();
             hashMap = FileUtil.deserialize(memoReminders.getImageDatas());
 
@@ -236,11 +239,11 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                 if (positionId != null) {
 
                     MemoReminders reminders = new MemoReminders(memoReminders.getmId(), resultMsg,
-                            importText.isChecked() ? 1 : 0, timeTitle.getText().toString(), FileUtil.serialize(hashMap));
+                           1, timeTitle.getText().toString(), FileUtil.serialize(hashMap));
                     adapter.updatReminder(reminders);
                 } else {
                     adapter.addReminder(resultMsg, FileUtil.serialize(hashMap),
-                            importText.isChecked(), timeTitle.getText().toString());
+                            true, timeTitle.getText().toString());
                 }
                 intent = new Intent(getActivity(), ContentActivity.class);
                 startActivity(intent);

@@ -38,6 +38,8 @@ public class DBAdapter {
     private Context mContext;
     private SQLiteDatabase db;
 
+
+
     public DBAdapter(Context mContext) {
 
         this.mContext = mContext;
@@ -137,8 +139,9 @@ public class DBAdapter {
 
     public void deleteReminderById(int id) {
         db.delete(TABLE_NAME, ID + "=?", new String[]{String.valueOf(id)});
-
     }
+
+
 
     public void deleteAllReminder() {
         db.delete(TABLE_NAME, null, null);

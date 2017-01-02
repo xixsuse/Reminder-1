@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xiachunle.reminder.recyclerView.SwipeItemLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_gravity="right">
+
+        <ImageView
+            android:id="@+id/image_delete"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:background="@color/read"
+            android:gravity="center"
+            android:src="@drawable/icon_delete"
+            android:padding="15dp"
+            />
+    </LinearLayout>
+
+    <include layout="@layout/list_linear"/>
+
+</com.xiachunle.reminder.recyclerView.SwipeItemLayout>
