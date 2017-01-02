@@ -37,20 +37,25 @@ public class MainAdapter extends RecyclerView.Adapter {
         this.mItemTouchHelper = mItemTouchHelper;
     }
 
+
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view=LayoutInflater.from(parent.getContext()).inflate(R.layout.item_menu,parent,false);
+        View view=LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main,parent,false);
 
         return new ContentViewHolder(view);
     }
 
     class ContentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public TextView itemText;
+        public TextView itemText,deleteText,closeText;
 
         public ContentViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             itemText=(TextView)itemView.findViewById(R.id.itemText);
+            deleteText=(TextView)itemView.findViewById(R.id.imag_delete);
+            closeText=(TextView)itemView.findViewById(R.id.imag_close);
+
         }
 
         @Override

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i=1;i<=20;i++){
             lists.add("第"+i+"个");
         }
+        Log.e("1111","111"+lists.size());
         recyclerView=(RecyclerView)findViewById(R.id.recycler);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSwiped(int adapterPosition) {
                 if(lists!=null){
+
                     lists.remove(adapterPosition);
                     mainAdapter.notifyItemRemoved(adapterPosition);
                 }
@@ -75,4 +78,8 @@ public class MainActivity extends AppCompatActivity {
         itemTouchHelper.setSwipeEnabled(true);
 
     }
+
+
+
+
 }
