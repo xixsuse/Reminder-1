@@ -32,6 +32,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:paddingBottom="10dp"
         android:layout_weight="4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,17 +44,18 @@
             android:layout_height="match_parent"
             android:id="@+id/add_img"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="center|bottom"
 
             />
 
         <TextView
+            android:paddingBottom="5dp"
             android:layout_weight="1"
             android:textColor="@color/textcolor"
             android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="center|bottom"
             android:id="@+id/setting"
             android:text="@string/setting"
             />

@@ -29,9 +29,10 @@ public class DBAdapter {
     public static final String TIME = "createTime";
     public static final String DATAS="imageDatas";
 
+    public static final String IMAGE="hasImage";
     public static final String CREATE_TABLE = "create table if not exists " + TABLE_NAME + " ( " + ID
             + " integer primary key autoincrement, "+RealID +" integer,"+ DETAILS + " text, " + IMPORTANT + " Integer, "
-            + TIME + " text, " + DATAS+" blob"+ ");";
+            + TIME + " text, " + DATAS+" blob, "+ IMAGE+" Integer "+");";
 
 
     private DBHelper dbHelper;
@@ -58,13 +59,13 @@ public class DBAdapter {
 
     //根据数据库字段增加数据库内容
 
-    public void addReminder(String msg, byte[] datas , boolean important, String time) {
+    public void addReminder(String msg, byte[] datas , boolean important, String time,boolean paths) {
         ContentValues values = new ContentValues();
         values.put(DETAILS, msg);
         values.put(IMPORTANT, important ? 1 : 0);
         values.put(TIME, time);
         values.put(DATAS, datas);
-
+        values.put(IMAGE,paths);
         int realId=getRealId();
         values.put(RealID,realId);
         db.insert(TABLE_NAME, null, values);
@@ -77,7 +78,7 @@ public class DBAdapter {
         values.put(IMPORTANT, reminders.getmFlag());
         values.put(TIME, reminders.getCreateTime());
         values.put(DATAS, reminders.getImageDatas());
-
+        values.put(IMAGE,reminders.isHasImage());
         int realId=getRealId();
         values.put(RealID,realId);
         db.insert(TABLE_NAME, null, values);
@@ -91,16 +92,15 @@ public class DBAdapter {
     public MemoReminders fetchReminderById(int id) {
 
         Cursor cursor =db.query(TABLE_NAME, new String[]{
-                        ID,DETAILS, IMPORTANT, TIME, DATAS},
+                        ID,DETAILS, IMPORTANT, TIME, DATAS,IMAGE},
                     RealID+ "=?",new String[]{String.valueOf(id)},null,null,null,null);
         MemoReminders reminders = null;
         if (cursor != null) {
             cursor.moveToFirst();
         }
-
         reminders = new MemoReminders(cursor.getInt(0),
                 cursor.getString(1), cursor.getInt(2), cursor.getString(3),
-                cursor.getBlob(4));
+                cursor.getBlob(4),(cursor.getInt(5)==1?true:false));
         cursor.close();
         return reminders;
     }
@@ -109,13 +109,13 @@ public class DBAdapter {
         ArrayList<MemoReminders> lists = new ArrayList<>();
         MemoReminders reminders;
         Cursor cursor = db.query(TABLE_NAME, new String[]{
-                        ID, DETAILS, IMPORTANT, TIME, DATAS},
+                        ID, DETAILS, IMPORTANT, TIME, DATAS,IMAGE},
                 null, null, null, null, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 reminders = new MemoReminders(cursor.getInt(0),
                         cursor.getString(1), cursor.getInt(2), cursor.getString(3),
-                        cursor.getBlob(4));
+                        cursor.getBlob(4),(cursor.getInt(5)==1?true:false));
                 lists.add(reminders);
 
             }
@@ -133,6 +133,7 @@ public class DBAdapter {
         values.put(IMPORTANT, reminders.getmFlag());
         values.put(TIME, reminders.getCreateTime());
         values.put(DATAS, reminders.getImageDatas());
+        values.put(IMAGE,reminders.isHasImage());
         db.update(TABLE_NAME, values, ID + "=?", new String[]{String.valueOf(reminders.getmId())});
 
     }
@@ -151,6 +152,7 @@ public class DBAdapter {
         db.delete(TABLE_NAME, RealID + "=?", new String[]{String.valueOf(id)});
 
     }
+
 
     private int getRealId() {
         Cursor cursor=select();
