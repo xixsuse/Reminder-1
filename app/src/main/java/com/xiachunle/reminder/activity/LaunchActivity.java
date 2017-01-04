@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.xiachunle.reminder.MemoApplication;
 import com.xiachunle.reminder.R;
 import com.xiachunle.reminder.adapter.MyLaunchFragmentAdapter;
@@ -53,16 +52,16 @@ public class LaunchActivity extends FragmentActivity {
         }
         MemoApplication.getInstance().addActivity(this);
         preferences = getSharedPreferences("first_pref", MODE_PRIVATE);
-//        isFirstIn=preferences.getBoolean("isFirstIn",true);
-//        if(!isFirstIn){
-//            Intent intent=new Intent();
-//            intent.setClass(getApplicationContext(),ContentActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
-//        SharedPreferences.Editor editor =preferences.edit();
-//        editor.putBoolean("isFirstIn",false);
-//        editor.commit();
+        isFirstIn=preferences.getBoolean("isFirstIn",true);
+        if(!isFirstIn){
+            Intent intent=new Intent();
+            intent.setClass(getApplicationContext(),ContentActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        SharedPreferences.Editor editor =preferences.edit();
+        editor.putBoolean("isFirstIn",false);
+        editor.commit();
         initView();
         initEvent();
     }
@@ -131,13 +130,5 @@ public class LaunchActivity extends FragmentActivity {
         });
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
 
-            new ExitDialogFragment().show(getSupportFragmentManager(), "Exit");
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 }

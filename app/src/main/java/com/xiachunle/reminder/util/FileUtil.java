@@ -34,6 +34,9 @@ import java.util.List;
  */
 
 public class FileUtil {
+
+    public static String END_FLAG="@end@";
+
     //获取应用的安装路径
     public static String getDataPath(Context context) {
         return context.getApplicationContext().getFilesDir().getPath();
@@ -155,5 +158,10 @@ public class FileUtil {
             e.printStackTrace();
         }
         return new SimpleDateFormat(" MM-dd ").format(date);
+    }
+    public static String getSecondTime(){
+
+        Date date =new Date();
+        return new SimpleDateFormat("HH:mm:ss").format(date);
     }
 }

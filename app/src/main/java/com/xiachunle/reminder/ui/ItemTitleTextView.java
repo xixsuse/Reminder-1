@@ -16,7 +16,7 @@ import com.xiachunle.reminder.R;
 
 public class ItemTitleTextView extends LinearLayout {
     private TextView textView;
-    private ImageView imageView;
+    private ImageView pictureImage,importImage;
 
     public ItemTitleTextView(Context context) {
         this(context, null);
@@ -31,7 +31,9 @@ public class ItemTitleTextView extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.ui_titletext, this);
         textView = (TextView) findViewById(R.id.text1);
-        imageView = (ImageView) findViewById(R.id.image1);
+        pictureImage = (ImageView) findViewById(R.id.image1);
+        importImage=(ImageView)findViewById(R.id.image_import);
+        importImage.setSelected(true);
     }
 
     public void setText(String text) {
@@ -39,9 +41,11 @@ public class ItemTitleTextView extends LinearLayout {
     }
 
     public void setImageShow(boolean flag) {
-        imageView.setVisibility(flag ? VISIBLE : GONE);
+        pictureImage.setVisibility(flag ? VISIBLE : GONE);
     }
-
+    public void setImpoetImage(boolean flag){
+        importImage.setVisibility(flag?VISIBLE:GONE);
+    }
     public void setSingleLine(boolean tag){
         textView.setSingleLine(tag);
     }

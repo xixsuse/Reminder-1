@@ -1,26 +1,26 @@
 package com.xiachunle.reminder.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xiachunle.reminder.R;
 import com.xiachunle.reminder.activity.DetailActivity;
@@ -29,9 +29,7 @@ import com.xiachunle.reminder.adapter.DBAdapter;
 import com.xiachunle.reminder.adapter.MyRecyViewAdapter;
 import com.xiachunle.reminder.bean.MemoReminders;
 import com.xiachunle.reminder.recyclerView.MyItemDivider;
-import com.xiachunle.reminder.recyclerView.MyItemOntouchListenr;
 import com.xiachunle.reminder.ui.AddTextView;
-import com.xiachunle.reminder.ui.ItemTitleTextView;
 import com.xiachunle.reminder.util.SharedHelper;
 
 import java.util.ArrayList;
@@ -63,6 +61,8 @@ public class ContentFragment extends Fragment {
 
     private SharedHelper sh;
 
+
+
     public static ContentFragment getInstance() {
         ContentFragment contentFragment = new ContentFragment();
 
@@ -74,6 +74,7 @@ public class ContentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_content, container, false);
+
         fragmentView = v;
         dbAdapter = new DBAdapter(getActivity().getApplicationContext());
         dbAdapter.open();
@@ -86,8 +87,8 @@ public class ContentFragment extends Fragment {
 
 
     private void initView(View v) {
-        sh=new SharedHelper(getActivity().getApplicationContext());
-        isGrid=sh.getLayout();
+        sh = new SharedHelper(getActivity().getApplicationContext());
+        isGrid = sh.getLayout();
         initRecyView(v);
 
         setTextView = (TextView) v.findViewById(R.id.setting);
@@ -106,25 +107,25 @@ public class ContentFragment extends Fragment {
         //设置方向
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         contentRecyView.setLayoutManager(layoutManager);
-
+        contentRecyView.addItemDecoration(new MyItemDivider(isGrid));
 
         if (!isGrid) {
-            layoutManager=new LinearLayoutManager(getActivity());
+            layoutManager = new LinearLayoutManager(getActivity());
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             contentRecyView.setLayoutManager(layoutManager);
 
         } else {
             contentRecyView.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false));
         }
-        contentRecyView.addItemDecoration(new MyItemDivider(isGrid));
+
         recyViewAdapter = new MyRecyViewAdapter(getActivity(), lists, isGrid);
         recyViewAdapter.addOnItemOnClickListener(new MyRecyViewAdapter.OnItemOnClickListener() {
             @Override
             public void onItemClick(RecyclerView.ViewHolder holder, int position) {
-                Log.e("test","show:"+holder.getAdapterPosition()+"-----"+position);
+                Log.e("test", "show:" + holder.getAdapterPosition() + "-----" + position);
                 dbAdapter.open();
-                memoReminder = dbAdapter.fetchReminderById(position + 1);
-                createOrEditreminder(String.valueOf(position + 1));
+                memoReminder = dbAdapter.fetchReminderById(position+1);
+                createOrEditreminder(String.valueOf(position)+1);
                 getActivity().finish();
             }
         });
@@ -132,33 +133,13 @@ public class ContentFragment extends Fragment {
             @Override
             public void onMenuClick(RecyclerView.ViewHolder holder, int position) {
                 dbAdapter.deleteReminderByRealId(holder.getAdapterPosition()+1);
-//                lists.remove(holder.getAdapterPosition());
-//                recyViewAdapter.notifyItemRemoved(holder.getAdapterPosition());
-//                lists=dbAdapter.fetchAllReminders();
-//                recyViewAdapter = new MyRecyViewAdapter(getActivity(), lists, isGrid);
+                dbAdapter.updataRealId();
             }
         });
         contentRecyView.setAdapter(recyViewAdapter);
         contentRecyView.setItemAnimator(new DefaultItemAnimator());
         contentRecyView.setHasFixedSize(true);
 
-//        contentRecyView.addOnItemTouchListener(
-//                new MyItemOntouchListenr(getActivity(),
-//                        contentRecyView, new MyItemOntouchListenr.OnItemClickListener() {
-//            @Override
-//            public void OnItemClick(int position) {
-//                dbAdapter.open();
-//
-//                memoReminder = dbAdapter.fetchReminderById(position + 1);
-//                createOrEditreminder(String.valueOf(position + 1));
-//                getActivity().finish();
-//            }
-//
-//            @Override
-//            public void OnItemLongClick(int position) {
-//                Toast.makeText(getActivity(),"Long Press "+(position+1),Toast.LENGTH_SHORT).show();
-//            }
-//        }));
 
     }
 
@@ -168,9 +149,39 @@ public class ContentFragment extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.setting:
-                    Intent intent = new Intent(getActivity(), SettingActivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
+                    Log.e("Test","aaaa");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    ListView modeListView = new ListView(getActivity());
+                    String[] modes = {"选择布局", "清空"};
+                    ArrayAdapter<String> modeApapter = new ArrayAdapter<String>(getActivity(),
+                           R.layout.setting_dialog
+                            , R.id.set_dialog, modes);
+                    modeListView.setAdapter(modeApapter);
+                    builder.setView(modeListView);
+                    final Dialog dialog = builder.create();
+                    dialog.show();
+                    modeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            if (position == 0) {
+                                Intent intent = new Intent(getActivity(), SettingActivity.class);
+                                startActivity(intent);
+                                getActivity().finish();
+                            }else {
+                                dbAdapter.deleteAllReminder();
+                                dbAdapter.updataRealId();
+                                if(lists.size()>0){
+                                    lists.removeAll(lists);
+                                    recyViewAdapter.notifyDataSetChanged();
+                                }
+                                lists=dbAdapter.fetchAllReminders();
+                                recyViewAdapter=new MyRecyViewAdapter(getActivity(),lists,isGrid);
+                                contentRecyView.setAdapter(recyViewAdapter);
+
+                            }
+                            dialog.dismiss();
+                        }
+                    });
                     break;
                 case R.id.add_img:
                     isLayoutSelect = false;
@@ -189,5 +200,21 @@ public class ContentFragment extends Fragment {
         startActivity(intent);
     }
 
+    class MyHandler extends  Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    if(lists.size()>0){
+                        lists.removeAll(lists);
+                        recyViewAdapter.notifyDataSetChanged();
+                    }
+                    lists=dbAdapter.fetchAllReminders();
 
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
+        }
+    }
 }

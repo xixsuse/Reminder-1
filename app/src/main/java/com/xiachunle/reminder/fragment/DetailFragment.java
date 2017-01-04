@@ -56,8 +56,6 @@ import java.util.List;
 import java.util.Map;
 
 
-
-
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.ALARM_SERVICE;
 
@@ -70,21 +68,20 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private EditText result;
     private TextView timeTitle;
     private ImageView saveText, cancelText;
-    private ImageView importText ,delText;
+    private ImageView importText, delText;
     private ImageView timeLock;
-    private ImageView  getPicture, startCamera;
+    private ImageView getPicture, startCamera;
 
     private DBAdapter adapter;
 
     private int CAMERA_FLAG = 0x10;
     private int PICTURE_FLAG = 0x11;
-    private final static int CAMERA_PREMISSION = 0x12;
 
 
     private HashMap<String, byte[]> hashMap;//应用中进行数据处理的形式
-    private List<String> tempPathsList;//每张身份标识
-    private List<byte[]> tempDatasList;//每张图片的数据
-
+    private List<String> tempPathsList;//存放每张图片身份路径
+    private List<byte[]> tempDatasList;//存放每张图片的数据
+    private boolean hasImage=false;
     private boolean isContainImage = false;
     private ImageSpan imageSpan;
     private SpannableString ss;
@@ -149,11 +146,11 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         positionId = getArguments().getString("position");
         getPicture = (ImageView) v.findViewById(R.id.picture);
         startCamera = (ImageView) v.findViewById(R.id.startCamera);
-        timeLock=(ImageView) v.findViewById(R.id.lock);
+        timeLock = (ImageView) v.findViewById(R.id.lock);
         hashMap = new HashMap<String, byte[]>();
         tempPathsList = new ArrayList<String>();
         tempDatasList = new ArrayList<byte[]>();
-        alarmManager=(AlarmManager)getActivity().getSystemService(ALARM_SERVICE);
+        alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
         initShow();
         importText.setOnClickListener(this);
         saveText.setOnClickListener(this);
@@ -171,10 +168,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         if (positionId != null) {
             memoReminders = adapter.fetchReminderById(Integer.parseInt(positionId));
             timeTitle.setText(memoReminders.getCreateTime() == null ? "" : memoReminders.getCreateTime());
-//            importText.setB(memoReminders.getmFlag() == 1);
+            importText.setSelected(memoReminders.getmFlag() == 1);
             String content = memoReminders.getmContent();
             hashMap = FileUtil.deserialize(memoReminders.getImageDatas());
-
             if (hashMap != null) {
                 Log.e("test", "before:" + hashMap.size());
                 isContainImage = true;
@@ -229,21 +225,24 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                     }
                     for (int i = 0; i < tempPathsList.size(); i++) {
                         hashMap.put(tempPathsList.get(i), tempDatasList.get(i));
+
                     }
+                    hasImage=true;
                     Log.e("test", "hm:" + hashMap.size());
                 } else {
                     hashMap = null;
+                    hasImage=false;
                 }
                 resultMsg = result.getText().toString().trim();
                 result.setCursorVisible(false);
                 if (positionId != null) {
 
                     MemoReminders reminders = new MemoReminders(memoReminders.getmId(), resultMsg,
-                           1, timeTitle.getText().toString(), FileUtil.serialize(hashMap));
+                            importText.isSelected() ? 1 : 0, timeTitle.getText().toString(), FileUtil.serialize(hashMap),hasImage);
                     adapter.updatReminder(reminders);
                 } else {
                     adapter.addReminder(resultMsg, FileUtil.serialize(hashMap),
-                            true, timeTitle.getText().toString());
+                            importText.isSelected(), timeTitle.getText().toString(),hasImage);
                 }
                 intent = new Intent(getActivity(), ContentActivity.class);
                 startActivity(intent);
@@ -274,7 +273,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 try {
                     cameraTempFile = new File(FileUtil.getSDPath() +
-                            File.separator + "camera.jpg");
+                            File.separator + FileUtil.getSecondTime()+"camera.jpg");
                     if (cameraTempFile.exists()) {
                         cameraTempFile.delete();
                     }
@@ -294,19 +293,14 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
                 getActivity().finish();
                 break;
             case R.id.lock:
-                Calendar c=Calendar.getInstance();
-//                TimePickerDialog dialog=new TimePickerDialog(getActivity(), 1,
-//                        new TimePickerDialog.OnTimeSetListener() {
-//
-//                            PendingIntent pendingIntent=
-//                    @Override
-//                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-//
-//                    }
-//                });
 
-
-//                dialog.show();
+                break;
+            case R.id.importFlag:
+                if (importText.isSelected()) {
+                    importText.setSelected(false);
+                } else {
+                    importText.setSelected(true);
+                }
                 break;
         }
     }

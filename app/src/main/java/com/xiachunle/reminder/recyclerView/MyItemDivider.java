@@ -31,9 +31,6 @@ public class MyItemDivider extends RecyclerView.ItemDecoration {
             View child = parent.getChildAt(i);
             if (isGrid) {
                 c.drawLine(child.getRight(), child.getTop(), child.getRight(), child.getBottom(), paint);
-
-
-
                 c.drawLine(child.getLeft(),child.getBottom(),child.getRight(),child.getBottom(),paint);
             } else {
                 c.drawLine(child.getLeft(),child.getBottom(),child.getRight(),child.getBottom(),paint);

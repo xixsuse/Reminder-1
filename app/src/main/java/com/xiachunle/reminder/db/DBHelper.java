@@ -18,7 +18,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     public DBHelper(Context context){
-        super(context, FileUtil.getDataPath(context)+File.separator+ DBAdapter.DB_NAME,null,DBAdapter.DB_VERSION);
+        super(context, FileUtil.getSDPath()+File.separator+ DBAdapter.DB_NAME,null,DBAdapter.DB_VERSION);
     }
 
     @Override

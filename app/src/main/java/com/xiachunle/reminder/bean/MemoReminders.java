@@ -17,17 +17,16 @@ public class MemoReminders implements Serializable {
     private int mFlag; //是否重要
     private String createTime;//创建时间
     private byte[] imageDatas;//所有图片数据
+    private boolean  hasImage;//所有图片地址拼接称的字符串
 
-    public MemoReminders(int mId, String mContent, int mFlag, String createTime) {
-        this(mId, mContent, mFlag, createTime, null);
-    }
 
-    public MemoReminders(int mId, String mContent, int mFlag, String createTime,byte []imageDatas) {
+    public MemoReminders(int mId, String mContent, int mFlag, String createTime,byte []imageDatas,boolean hasImage) {
         this.mId = mId;
         this.mContent = mContent;
         this.mFlag = mFlag;
         this.createTime = createTime;
         this.imageDatas = imageDatas;
+       this.hasImage=hasImage;
     }
 
     public int getmId() {
@@ -68,5 +67,17 @@ public class MemoReminders implements Serializable {
 
     public void setImageDatas(byte[] imageDatas) {
         this.imageDatas = imageDatas;
+    }
+
+    public MemoReminders(boolean hasImage) {
+        this.hasImage = hasImage;
+    }
+
+    public boolean isHasImage() {
+        return hasImage;
+    }
+
+    public void setHasImage(boolean hasImage) {
+        this.hasImage = hasImage;
     }
 }
